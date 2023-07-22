@@ -44,6 +44,6 @@ python3 main.py
 
 2. Enter the URL of the video or playlist you want to download when prompted.
 3. If the URL is a video, you will be shown the available streams for that video. Enter the number of the stream you want to download.
-4. the URL is a playlist, you will be prompted to choose a stream for each video. You can navigate between the videos by typing 'next' or 'previous'.
+4. If the URL is a playlist, you will be prompted to choose a stream for each video. You can navigate between the videos by typing 'next' or 'previous'.
 5. When asked, choose a directory to save the downloaded video or playlist.
 6. The video will start downloading and the progress will be shown in the terminal.
