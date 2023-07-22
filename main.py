@@ -129,6 +129,7 @@ def download_playlist(url, download_path):
 
 
 def main():
+    os.system('cls' if os.name == 'nt' else 'clear')
     while True:
         url = input("Enter the URL of the video or playlist you want to download (or type 'quit' to exit): ")
 
