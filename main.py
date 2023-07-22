@@ -69,6 +69,12 @@ def is_youtube_playlist(url):
     return 'youtube.com/playlist' in url
 
 
+def is_valid_youtube_url(url):
+    # YouTube video and playlist URL pattern
+    youtube_video_regex = r'(https?://)?(www\.)?(youtube|youtu|youtube-nocookie)\.(com|be)/(watch\?v=|playlist\?list=)[^&=%\?]{11}'
+    return re.match(youtube_video_regex, url) is not None
+
+
 def download_playlist(url, download_path):
     playlist = Playlist(url)
 
@@ -129,6 +135,10 @@ def main():
         if url.lower() == 'quit':
             break
 
+        if not is_valid_youtube_url(url):
+            print("Invalid YouTube URL. Please enter a valid YouTube video or playlist URL.")
+            continue
+
         if is_youtube_playlist(url):
             download_path = ask_for_directory()
             if not download_path:
@@ -141,6 +151,7 @@ def main():
             video, streams = get_video_details(url)
 
             if video is None or streams is None:
+                print("Failed to fetch video details. Please ensure the video URL is correct and try again.")
                 continue
 
             stream_number = input(
@@ -152,7 +163,7 @@ def main():
                 continue
 
             if not stream_number.isdigit() or int(stream_number) < 1:
-                print("Invalid stream number.")
+                print("Invalid stream number. Please enter a number corresponding to a video quality option.")
                 continue
             stream_number = int(stream_number)
 
