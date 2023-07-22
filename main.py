@@ -2,6 +2,8 @@ from pytube import YouTube
 import os
 import sys
 from tqdm import tqdm
+from tkinter import filedialog
+from tkinter import Tk
 
 def progress_function(stream, chunk, bytes_remaining):
     current = ((stream.filesize - bytes_remaining)/stream.filesize)
@@ -13,7 +15,6 @@ def progress_function(stream, chunk, bytes_remaining):
 
 def get_video_details(url):
     try:
-        # on_progress_callback argument is used to show the download progress
         video = YouTube(url, on_progress_callback=progress_function)
     except Exception as e:
         print(f"Error: {str(e)}")
@@ -31,7 +32,6 @@ def get_video_details(url):
         print(f"{i + 1}. {stream.resolution}, {stream.fps}fps, {stream.mime_type}, Size: {round(stream.filesize/(1024*1024),2)}MB")
 
     return video, streams
-
 
 def download_video(video, streams, stream_number, download_path):
     if not os.path.exists(download_path):
@@ -51,6 +51,11 @@ def download_video(video, streams, stream_number, download_path):
     except Exception as e:
         print(f"Error: {str(e)}")
 
+def ask_for_directory():
+    root = Tk()
+    root.withdraw()
+    root.call('wm', 'attributes', '.', '-topmost', True)
+    return filedialog.askdirectory()
 
 def main():
     url = input("Enter the URL of the video you want to download: ")
@@ -67,7 +72,11 @@ def main():
         return
     stream_number = int(stream_number)
 
-    download_path = input("Enter the download path: ")
+    download_path = ask_for_directory()
+    if not download_path:
+        print("No directory selected.")
+        return
+
     download_video(video, streams, stream_number, download_path)
 
 
